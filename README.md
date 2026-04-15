@@ -1,4 +1,4 @@
-# Push de cambios
+# Como hacer un Push de cambios
 
 Para subir modificaciones al repositorio remoto, sigue este flujo:
 
@@ -13,3 +13,5 @@ git push
 * git add . : Añade todos los cambios al área de staging.
 * git commit -m "mensaje" : Guarda los cambios localmente con una descripción.
 * git push : Envía los commits al repositorio remoto.
+
+## Ánimo que podemos chiquis!! <3
