@@ -3,10 +3,10 @@
 Para subir modificaciones al repositorio remoto, sigue este flujo:
 
 En el bash / console (cmd, wsl...)
-git status
-git add .
-git commit -m "mensaje descriptivo"
-git push
+git status  
+git add .  
+git commit -m "mensaje descriptivo"  
+git push  
 
 ## Detalles
 * git status: Muestra el estado actual de los archivos.
