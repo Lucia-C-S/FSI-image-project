@@ -18,8 +18,11 @@ git commit -m "mensaje descriptivo"
 git push  
 
 O, he descubierto que para sobreescribir se utiliza:
+
 git pull --rebase origin main
+
 git push origin main
+
 
 ## Detalles
 * git status: Muestra el estado actual de los archivos.
