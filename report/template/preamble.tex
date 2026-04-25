@@ -1,0 +1,53 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Dependencies
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}
+\usepackage[export]{adjustbox}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{lastpage}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{eurosym}
+\usepackage{multirow}
+\usepackage{ulem}
+\usepackage{soul}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[default,oldstyle,scale=0.95]{opensans}
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subfigure} % subfiguras
+\usepackage{float} % Podemos usar o especificador [H] nas figuras para que fiquem na posição desejada
+\usepackage{capt-of} % Permite usar etiquetas fora de elementos flutuantes
+% (etiquetas de figuras)
+\usepackage[colorlinks=true,plainpages=true,citecolor=blue,linkcolor=blue]{hyperref} % Para que os hypertextos apareçam coloridos
+\usepackage{listings} % Para usar código fonte
+	\definecolor{dkgreen}{rgb}{0,0.6,0} % Definimos cores para usar no código
+	\definecolor{gray}{rgb}{0.5,0.5,0.5} 
+% configuração para a linguagem de programação que desejamos utilizar
+	\lstset{language=Matlab,
+   	keywords={break,case,catch,continue,else,elseif,end,for,function,
+    	  global,if,otherwise,persistent,return,switch,try,while},
+   	basicstyle=\ttfamily,
+   	keywordstyle=\color{blue},
+   	commentstyle=\color{red},
+   	stringstyle=\color{dkgreen},
+   	numbers=left,
+   	numberstyle=\tiny\color{gray},
+   	stepnumber=1,
+   	numbersep=10pt,
+   	backgroundcolor=\color{white},
+   	tabsize=4,
+   	showspaces=false,
+   	showstringspaces=false}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\graphicspath{ {graphics/} }

@@ -1,0 +1,126 @@
+\documentclass[11pt,a4paper]{article}
+%% Pacotes utilizados para a produção do relatório
+\input{template/preamble.tex}
+\usepackage{fancyhdr} 
+	\pagestyle{fancy}
+	\fancyhf{}
+	\fancyhead[L]{\footnotesize Foundamentals of Sound and Image} % Cabeçalho à esquerda
+	\fancyhead[R]{\footnotesize Image Project}   % Cabeçalho à direita
+	\fancyfoot[R]{\footnotesize }  % Rodapé à direita
+	\fancyfoot[C]{\thepage}  % Rodapé centro
+	\fancyfoot[L]{\footnotesize} % Rodapé à esquerda
+	\renewcommand{\footrulewidth}{0.4pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+
+\title{Image Project}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+
+\begin{document}
+\input{docs/0_frontpage.tex}
+\tableofcontents
+	\newpage
+\input{docs/1_introduction.tex}
+\input{docs/2_methodology.tex}
+
+
+\subsection{Objetivo}
+
+Um parágrafo sucinto e claro esclarecendo o objetivo geral do projeto.
+
+\subsubsection{Objetivos específicos}
+
+Incluir os objetivos específicos para que o objetivo geral seja alcançado. Aqui, cabem as frases escritas com os seguintes verbos no infinitivo: realizar, adaptar, selecionar, construir, implementar, validar, estudar, utilizar, dentre outros.
+
+\subsection{Motivação}
+
+Neste item deve ser descrita a justificativa do projeto que o grupo propõe. Qual a real motivação para que este projeto seja implementado? Social, ambiental, econômica, cultural? 
+
+\section{Metodologia} 
+
+Como a implementação do projeto é abordada pelo grupo? Aqui é interessante colocar um fluxograma com tudo que o projeto terá, explicando o máximo de itens.
+
+\subsection{Gerenciamento}
+Como é feito o gerenciamento e quais são as funções de cada um dos integrantes? O que cada função executa?
+
+\subsection{Ferramentas}
+Quais ferramentas serão utilizadas? Como cada uma delas se encaixa no projeto?
+
+\subsection{Lista de componentes}
+
+Uma lista em formato de tabela deve ser colocada aqui. Ela deve conter, no mínimo: componente, descrição, quantidade, valor unitário, valor total.
+\\
+
+\begin{tabular}{c|c|c|c|c}
+\hline
+Componente & Descrição & Quantidade & Valor unitário & Valor Total\\
+\hline
+Arduíno & MEGA & 01 & R\$ 70,00 & R\$ 70,00 \\
+\hline
+\end{tabular}
+
+\subsection{Cronograma}
+
+Cronograma seguido pelo grupo. Vamos preencher em um primeiro momento e depois segui-lo. No Redmine o gráfico de Gantt é gerado automaticamente. Ele pode ser inserido aqui.
+
+\section{O projeto de Automação implementado}
+
+Este item não deve ter este nome. Ele deve ter o nome do projeto de cada grupo. Por exemplo: "Casa Inteligente".
+
+Aqui vocês vão escrever o que implementaram.
+
+\subsection{O sistema embarcado}
+
+Como o arduíno foi ligado e a sua programação para este projeto.
+Qual interface de comunicação foi implementada e seu código.
+Quais interfaces de acionamento foram fisicamente implementadas? Exemplos: circuito para acionamento de servomotores, ou de motor de passo, ou de motores DC.
+
+\subsection{O site - Acesso remoto aos dados}
+
+Apresentar o site, com as informações que são lidas/escritas a partir do site que vocês vão implementar.
+
+\subsection{O aplicativo para dispositivos móveis}
+
+Apresentar o aplicativo, tela a tela, função a função, que foi criado.
+
+\subsection{Especificações técnicas para funcionamento}
+
+Neste item vocês devem colocar as restrições do projeto, as condições nas quais o projeto funciona (tamanhos de peças, distâncias das interfaces de comunicação, tipo de material reconhecido pelos sensores, dentre outras).
+
+\section{Conclusões}
+
+Conclua sobre todo o desenvolvimento do projeto, desde sua concepção até sua implementação. Quais foram as dificuldades encontradas e as soluções propostas?
+
+Qual a importância da atuação de um grupo, interdisciplinar, no desenvolvimento de um projeto para a formação de cada um dos integrantes do grupo?
+
+\section{Exemplos como inserir uma figura}
+
+Clicar em Project, na barra de menus da página (acima e à esquerda). Lá procurar pela imagem que você quer colocar a partir do computador e fazer o upload dela aqui.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{EXEMPLO DE FIGURA A SER INSERIDA}
+\begin{figure}[H]
+	\begin{center}
+ 		%\includegraphics[width = 0.5\textwidth]{Imagens/ImagemExemplo}
+ 		\captionof{figure}{\label{fig:ImagemExemplo}Descrição da imagem} 
+	\end{center} 
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{EXEMPLO DE REFERÊNCIA A SER INSERIDA}
+%\cite{IEEEreferencias:Ref1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% Bibliografia %%%%%%%%
+\bibliographystyle{bst/IEEEtran.bst} 
+\addcontentsline{toc}{section}{Referências}  
+\bibliography{bib/IEEEabrv,bib/IEEEreferencias.bib} 
+%%%%%%% Bibliografía %%%%%%%%    
+
+\appendix  
+\clearpage % o \cleardoublepage 
+
+\section{Anexos 1.}
+
+\section{Anexos 2.}
+\end{document}
