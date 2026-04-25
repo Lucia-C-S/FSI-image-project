@@ -1,15 +1,15 @@
 # Como hacer un Push de cambios
 ## Primer vez usando GitHub:
-*Configura tu usuario
-git config --global user.name "TuNombre"
-git config --global user.email "tuemail@ejemplo.com"
+### Configura tu usuario
+* git config --global user.name "TuNombre"
+* git config --global user.email "tuemail@ejemplo.com"
 
-* Inicializa git
-git init
-Vincular: git remote add origin https://nuestroproyecto
-Traer archivos: git pull origin main
+### Inicializa git
+* git init
+* Vincular: git remote add origin https://nuestroproyecto
+* Traer archivos: git pull origin main
 
-* Para subir modificaciones al repositorio remoto, sigue este flujo:
+### Para subir modificaciones al repositorio remoto, sigue este flujo:
 
 En el bash / console (cmd, wsl...)
 git status  
