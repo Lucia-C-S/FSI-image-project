@@ -7,6 +7,7 @@ characterOut = cell(numchars, 1); %create a cell array with 1 column and as many
  
 for k=1:numchars
     image = characterArray{k};
+    image = logical(image);
 
     [height, width]=size(image); %size of the image containing each char
 
