@@ -36,8 +36,6 @@ function [letter, score] = task6RecognizeCharacters(img, alphabetDir)
     letters = fieldnames(alphabetDir);
 % 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; %define search space
     scores  = zeros(1, 26); %preallocate for speed
-    % normalize input ONCE (outside loop)
-    cn = (charNorm - mean(charNorm(:))) / std(charNorm(:));
     
     for k = 1:26 %iterate over each possible letter
         ref = alphabetDir.(letters{k});  % Get reference template from struct
@@ -50,11 +48,8 @@ function [letter, score] = task6RecognizeCharacters(img, alphabetDir)
             continue;
         end
         
-        % normalize (zero mean, unit variance)
-        ref = (ref - mean(ref(:))) / std(ref(:));
-        
-        scores(k) = sum(sum(cn .* ref)); %it is faster than built-in corr2
-
+        % normalize (zero mean, unit variance) into -1,1
+        scores(k) = corr2(charNorm, ref);
     end
     
     [sortedScores, idxs] = sort(scores, 'descend');

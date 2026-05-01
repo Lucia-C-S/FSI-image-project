@@ -14,9 +14,11 @@ for k = 1:length(labels)
     char(trueLabel), char(pred), score);
 
     
-    if pred == trueLabel
+    if char(pred) == char(trueLabel)
         correct = correct + 1;
     end
 end
 
-accuracy = correct / length(labels)
+accuracy = (correct / length(labels)) * 100;
+fprintf('Accuracy: %d %%\n', accuracy);
+
