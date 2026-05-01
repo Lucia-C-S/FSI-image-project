@@ -2,12 +2,13 @@ function characterOut = task4PreprocessingCharacters(characterArray, N)
 %Goal: convert each segmented character from task3 into a NxN image
 %being characterArray a cell array with image of each segmented character
 
-numchars = length(characterArray);
+allLetters = [characterArray{:}]; %DOS PUNTOS POR QUE SINO SOLO NOS PILLA EL NUMERO DE FILAS, ASI APLANAMOS
+
+numchars = length(allLetters); 
 characterOut = cell(numchars, 1); %create a cell array with 1 column and as many rows as images we have
- 
+
 for k=1:numchars
-    image = characterArray{k};
-    image = logical(image);
+    image = allLetters{k};
 
     [height, width]=size(image); %size of the image containing each char
 
@@ -39,15 +40,16 @@ for k=1:numchars
     %resize the square image
     resizedImage = imresize(imgSquare, [N N]); %being NxN the dimensions of the output image
     characterOut{k} = resizedImage; %adding in each iteration the resized square image to the next pos of the cell array 
+    
 end
 
 % visualizacion para debug (COMENTAR LUEGO!!!!!)
-figure;
-numImShow = min(numchars, 10); %probamos con los primeros 10 o menos
-for i = 1:numImShow
-    subplot(1, numImShow, i); %plotea una fila de tantas columnas como elementos vayamos a mostrar (max 10)
-    imshow(characterOut{i});
-end
+
+% numImShow = min(numchars, 100); %probamos con los primeros 100 o menos
+% for i = 1:numImShow
+%     figure();
+%     imshow(characterOut{i}); %With {} = content. We need to show all the images
+% end
 
 end
 
