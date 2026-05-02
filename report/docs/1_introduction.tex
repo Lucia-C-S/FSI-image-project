@@ -1,9 +1,20 @@
 \section{Introduction}
 
-Deve conter uma breve descrição do projeto.
-Este texto deve ser capaz de contextualizar o leitor com relação ao seu projeto.
+\subsection{Project constraints and scope}
+This project focuses on a constrained but realistic scenario: documents containing only capital letters in Arial font, organized in horizontal rows, and scanned at reasonable resolution.
 
-\subsection{Definição do problema a ser resolvido}
+Despite the given constraints making the creation of the project easier,  the implementation of the full pipeline from raw image input to final text output makes the project ambitious in breadth. This end-to-end approach reveals how errors at one stage propagate to downstream stages, a critical insight that single-stage misses.
 
-A automação de um processo deve servir a um propósito, que é resolver e/ou otimizar um problema/processo. Descreva aqui qual problema/processo seu projeto resolve/otimiza.
+Additionally, the project explores alternative methods at each stage: both base implementations (simpler, faster) and advanced variants (more robust, slower), both recommended by the guide and others self-discovered. At the end, informed trade-off decisions could be taken  based on measured performance and will be later discussed. 
 
+\subsection{Problem definition and success criteria}
+The overarching goal of this project is to build a functional OCR system that accurately recognizes capital letters in clean and moderately degraded documents, while thoroughly understanding and documenting the performance characteristics, failure modes, and improvement pathways of each component. This goal naturally decomposes into several specific objectives:
+\begin{enumerate}
+    \item Implement a complete OCR pipeline that processes raw scanned images and outputs recognized text.
+    \item Achieve high recognition accuracy (targeting above 95\%) on a test set of documents with varying levels of degradation.
+    \item Analyze the performance of each stage (binarization, segmentation, normalization, recognition) to identify bottlenecks and error sources.
+    \item Explore and compare alternative methods for each stage to understand their trade-offs in terms of accuracy, robustness, and computational efficiency.
+    \item Document the implementation details, results, and insights gained throughout the project in a comprehensive report.
+    \item Identify potential improvements and future work.
+\end{enumerate}
+\newpage
