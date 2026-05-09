@@ -13,10 +13,10 @@ charProyection = sum(row, 1);
 threshold=0;
 binaryProyection = charProyection > threshold;
 
-%PARA COMRPOBAR LUEGO QUITAR 
-figure();
-plot(binaryProyection);
-title('Proyection');
+% %PARA COMRPOBAR LUEGO QUITAR 
+% figure();
+% plot(binaryProyection);
+% title('Proyection');
 
 %Detection of characters
 %diff get the difference beetween to consecutive elements: x(2)-x(1)
@@ -55,6 +55,8 @@ for i = 1:numChars
 
     %Compare the width
     if width > 1.5 * avgWidth
+        
+        %Round the cut where we divide the characters and store it
         cut = round((startCharMargin(i)+endCharMargin(i))/2)-1;
         
         chars{k} = row(:, startCharMargin(i):cut);
@@ -73,10 +75,10 @@ end
 allChars = chars;
 
 %For show the characters in order to check.
-for j = 1:length(allChars)
-    figure();
-    imshow(allChars{j}); %With {} = content. We need to show all the images
-    title(['Character ' num2str(j)]);
-end
+% for j = 1:length(allChars)
+%     figure();
+%     imshow(allChars{j}); %With {} = content. We need to show all the images
+%     title(['Character ' num2str(j)]);
+% end
 
 end

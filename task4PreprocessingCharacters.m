@@ -2,13 +2,18 @@ function characterOut = task4PreprocessingCharacters(characterArray, N)
 %Goal: convert each segmented character from task3 into a NxN image
 %being characterArray a cell array with image of each segmented character
 
-allLetters = [characterArray{:}]; %DOS PUNTOS POR QUE SINO SOLO NOS PILLA EL NUMERO DE FILAS, ASI APLANAMOS
+%PRESERVING ROW STRUCTURE TO FACILITATE RECOGNITION!!!
 
-numchars = length(allLetters); 
-characterOut = cell(numchars, 1); %create a cell array with 1 column and as many rows as images we have
+numRows=length(characterArray);
+characterOut = cell(numRows, 1); %create a cell array with 1 column and as many rows as images we have
 
-for k=1:numchars
-    image = allLetters{k};
+for i = 1:numRows
+    currentRow = characterArray{i};
+    numCharsRow = length(currentRow);
+    processedRow= cell(1,numCharsRow);
+
+for k=1:numCharsRow
+    image = currentRow{k};
 
     [height, width]=size(image); %size of the image containing each char
 
@@ -36,10 +41,16 @@ for k=1:numchars
     else
         imgSquare = image;
     end
-
+    
     %resize the square image
-    resizedImage = imresize(imgSquare, [N N]); %being NxN the dimensions of the output image
-    characterOut{k} = resizedImage; %adding in each iteration the resized square image to the next pos of the cell array 
+    processedRow{k}=imresize(imgSquare, [N N]); %being NxN the dimensions of the output image
+    
+    %Diego add this for setting values (0.1) spaces and pixels for more as
+    %we did previously in other tasks, to provide more sensitivity
+    processedRow{k} = processedRow{k} > 0.5; 
+
+end
+    characterOut{i} = processedRow; %adding in each iteration the WHOLE ROW of resized square images to the next pos of the cell array 
     
 end
 

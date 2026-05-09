@@ -7,7 +7,7 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     %   - score: similarity score
 
     % --- Step 1: normalize single character ---
-    img = im2double(img);
+    % img = im2double(img);
     % [h, w] = size(img);
     % % PADDING
     % % we convert any character image into a square image before resizing, 
@@ -29,8 +29,12 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     % 
     % charNorm = imresize(img, [32 32]);
 
-    charNormCell = task4PreprocessingCharacters({img}, 32);
-    charNorm = im2double(charNormCell{1});
+    % charNormCell = task4PreprocessingCharacters({{img}}, 32); %cambio andrea, puse dos {{}} pq modifique tarea4
+    % charNorm = im2double(charNormCell{1}{1});
+
+    %Diego change this in order to reduce possible errors
+    %Try changes!! No reproccess the characters again => more error margin
+    charNorm = im2double(img);
 
     letters = fieldnames(alphabet);
 % 'ABCDEFGHIJKLMNOPQRSTUVWXYZ': define search space
@@ -57,12 +61,38 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     best = sortedScores(1); %select best match
     second = sortedScores(2);
 
-    letter = letters{idxs(1)}; %map from index to letter
+    %To check the scores of the letters
+    % disp(['BEST: ' letters{idxs(1)} ' ' num2str(sortedScores(1))])
+    % disp(['SECOND: ' letters{idxs(2)} ' ' num2str(sortedScores(2))])
+
+    letter = letters{idxs(1)}; %map from index to letter  
     score  = best;
 
     % Confidence check
-    if best < 0.5 || (best - second) < 0.055 % confidence threshold
+    % if best < 0.3 || (best - second) < 0.03 % confidence threshold   %andrea changed these thresholds!!!!!!
+    %Try changes => to a threshold less strict 
+    if best < 0.2  %|| (best-second)<0.005 %Diego change this
         letter = '?';   % low confidence threshold
         warning('Low confidence recognition (score=%.2f)', score);
     end
-end
+   
+    %Diego add this
+    %Specific cases for the letters previously identified characters that were interchanged.
+
+    if letter == 'B'
+
+    secondLetter = letters{idxs(2)};
+
+    if secondLetter == 'S' && abs(best-second) < 0.01
+        letter = 'S';
+    end
+    end
+    if letter == 'O'
+
+    secondLetter = letters{idxs(2)};
+
+    if secondLetter == 'D' && abs(best-second) < 0.01
+        letter = 'D';
+    end
+    end
+    
