@@ -1,0 +1,6 @@
+\subsubsection{Task 1 - Binarization}
+The binarization stage is responsible for converting the continuous-valued pixel intensities in a color or grayscale image into a binary (two-valued) representation where one value indicates text pixels and the other indicates background pixels. 
+The classical approach to binarization is to apply a global threshold: select a single pixel intensity value \(T\) such that pixels with intensity less than \(T\) are classified as background, and pixels with intensity greater than \(T\) are classified as text. 
+
+\subsubsubsection{Discussion: advanced methods}
+\indent We examined the results of different threshold values and understood their effect on the binarized text image. The question was: how to choose \(T\) optimally? Then Otsu's method came into play. This method selects the threshold \(T\) that maximizes the between-class variance. It gives us a dynamic definition of the optimal threshold for each input image.

@@ -1,0 +1,4 @@
+\subsubsection{Task 5 - Alphabet creation}
+Before we can recognize characters, we must define what each character looks like. We do this by creating an alphabet—a collection of template images, one for each letter A through Z. The alphabet is created by processing an ideal reference document that contains one instance of each letter in the desired font and style.
+The process is straightforward: we apply Tasks 1 through 4 to the reference document, segmenting it into rows, then into characters, then normalizing each character.  The normalization is done with the same N to ensure that all templates share the same geometry and resolution, enabling reliable similarity comparisons during recognition.
+The processed templates are stored in a MATLAB structure named \texttt{alphabet}, where each field corresponds to a character label and contains its associated normalized template image. The result is a directory containing 26 template images. 

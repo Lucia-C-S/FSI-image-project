@@ -1,11 +1,11 @@
-%Now we have to segment the characters on each row 
 function allChars = task3SegmentCharacters(row)
+%Now we have to segment the characters on each row 
 
-% %Logical format, to ensure that is work in black and white 
+% Logical format, to ensure that is work in black and white 
 row = logical(row);
 
-%Vertical proyection. For each column how many pixels of character we have
-%We have a matrix where the zeros are spaces and the non zeros letters.
+% Vertical proyection. For each column how many pixels of character we have
+% We have a matrix where the zeros are spaces and the non zeros letters.
 charProyection = sum(row, 1);
 
 %To detect zones where we have characters => Get a vector per row w/ spaces
@@ -45,7 +45,10 @@ chars = cell(1, numChars);
 
 
 %Setting a width and get the mean of all
-widths = endCharMargin-startCharMargin;
+% widths = endCharMargin-startCharMargin;
+% Lucía changed this because it inflates every width, due to the added
+% margin
+widths   = endChar - startChar + 1;
 avgWidth = mean(widths);
 k = 1;
 
@@ -57,13 +60,16 @@ for i = 1:numChars
     if width > 1.5 * avgWidth
         
         %Round the cut where we divide the characters and store it
-        cut = round((startCharMargin(i)+endCharMargin(i))/2)-1;
+        cut = round((startCharMargin(i)+endCharMargin(i))/2)-1; %quit the -1????
         
         chars{k} = row(:, startCharMargin(i):cut);
         k = k+1;
 
-        %Overlapping segment 
+        %Overlapping segment
         chars{k} = row(:, cut-1:endCharMargin(i));
+        % LUCIA: Starting at (cut) gives a clean 1-column overlap
+        % that is sufficient to avoid stroke loss.
+        % chars{k} = row(:, cut:endCharMargin(i));
         k = k+1;
 
     else

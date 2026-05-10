@@ -25,7 +25,7 @@ end
 imageResized = task4PreprocessingCharacters(allChars,32);
 
 %%TASK5. CREATING ALPHABET
-[alphabet, alphabetChars] = task5CreatingAlphabet('alphabet.jpeg', 32, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+[alphabet, alphabetChars] = task5CreatingAlphabet('alphabet.png', 32, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
 %%TASK6. RECOGNITION
 recognizedText = cell(numRows,1); %store recognized text of each row, cell porque cada fila puede tener distinto num de letras

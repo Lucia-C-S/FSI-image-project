@@ -10,6 +10,20 @@
 	\fancyfoot[C]{\thepage}  % Rodapé centro
 	\fancyfoot[L]{\footnotesize} % Rodapé à esquerda
 	\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\usepackage{hyperref}
+	% Redefine paragraph to look like a subsubsubsection
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% Numbering depth
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 
 \title{Image Project}
@@ -18,12 +32,10 @@
 
 \begin{document}
 \input{docs/0_frontpage.tex}
-\tableofcontents
-	\newpage
 \input{docs/1_introduction.tex}
 \input{docs/2_methodology.tex}
-\input{docs/2_6_task_recognition.tex}
 
+\iffalse
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \textbf{EXEMPLO DE FIGURA A SER INSERIDA}
 \begin{figure}[H]
@@ -37,17 +49,11 @@
 \textbf{EXEMPLO DE REFERÊNCIA A SER INSERIDA}
 %\cite{IEEEreferencias:Ref1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%% Bibliografia %%%%%%%%
-\bibliographystyle{bst/IEEEtran.bst} 
-\addcontentsline{toc}{section}{Referências}  
-\bibliography{bib/IEEEabrv,bib/IEEEreferencias.bib} 
-%%%%%%% Bibliografía %%%%%%%%    
+\fi
+%%%%%%% Biblioraphy %%%%%%%%
 
 \appendix  
 \clearpage % o \cleardoublepage 
 
-\section{Anexos 1.}
 
-\section{Anexos 2.}
 \end{document}

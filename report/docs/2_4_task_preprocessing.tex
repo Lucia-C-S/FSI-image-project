@@ -1,0 +1,22 @@
+\subsubsection{Task 4 - Preprocessing}
+Once individual characters have been segmented, they come in many different sizes. Before we can compare characters, we must normalize them to a common size. Furthermore, we must account for aspect ratio: some characters might be wider than they are tall, others taller than wide. If we simply resize a wide, short character to a square shape without first adjusting aspect ratio, the character will be horizontally compressed, distorting its appearance.\\
+
+The function (texttt{task4PreprocessingCharacters}), which takes as input parameters the segmented characters from task 3 and the desired size for each image, addresses this problem.\\
+
+We used cell arrays, since they allow us to store different size images (and therefore matrixes), which is what happens after character segmentation (task 3). Also, we preallocate (texttt{characterOut = cell(numchars, 1)}) in order to improve efficiency and avoid redimensioning in each loop iteration.\\
+
+For each array element, after computing its size, we padded with zeros because, as we know from task 1, we are working with a binary image in which characters are white (1 or true) and the background is black (0 or false). That is, we added background columns or lines to make each image square. This was done before resizing the image to avoid aspect ratio distortion (for example, without this an ‘I’ would increase size horizontally, looking like a white square), which would make the recognition process extremely complex and lead to many errors. Therefore, by doing it this way the character keeps its original shape.\\
+
+For the actual padding process we distinguish two opposite cases:
+\begin{enumerate}[label=\alph*), leftmargin=1cm]
+    \item The height is greater than the width.
+    \item The width is greater than the height
+\end{enumerate}
+
+In both we calculated how much we need for the image to be squared (represented by the variable padDif), and then we divided that into right and left (or top and bottom in case the width is greater than the height). This ensures the character remains centered. Otherwise, it would be a source of error for the recognition process.\\
+
+In addition, we used the Matlab functions \texttt{floor()} and \texttt{ceil()}) in case the difference between dimensions is an odd number (for example, if we have to add 7 pixels we add 3 to one side and 4 to the other, while if we used \texttt{round()}, or \texttt{ceil()} or \texttt{floor()} for both we would end up with 4 and 4 or 3 and 3, destroying the square geometry).\\
+
+Finally, we resize the image to the dimension $N \times N$ passed as a parameter with the Matlab function (texttt{imresize()}). Thus, they all have the same size and we can compare them easily.\\  
+
+After all the loop iterations, the resultant square images are stored in \texttt{characterOut}, the output of the function. 

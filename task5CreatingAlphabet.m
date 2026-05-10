@@ -46,9 +46,8 @@ alphabetChars = flattenCharacterCells(processedChars);
 
 % check that the number of characters matches the labels
 if length(alphabetChars) ~= length(labels)
-    error('The number of segmented characters does not match the number of labels.');
+    error('Alphabet mismatch: segmented %d characters but %d labels were provided. ', length(alphabetChars), length(labels));
 end
-
 % create alphabet structure, where we save labels  
 alphabet = struct;
 

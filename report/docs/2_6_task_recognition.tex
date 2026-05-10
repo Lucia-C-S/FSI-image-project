@@ -1,46 +1,21 @@
-\subsection{Task 6 - Recognize characters}
-\subsubsection{Recognition}
+\subsubsection{Task 6 - Character recognition}
+The recognition stage is the final step of the OCR pipeline. Given a character image, we must decide which of the 26 letters it most likely represents. The approach is template matching: we compare the test character against each of the 26 alphabet templates and select the one with the highest similarity score.\\
+The similarity metric is crucial. We use normalized correlation, computed using MATLAB's \texttt{corr2()} function, computes \texttt{(test · template) / (||test|| ||template||)}, the cosine similarity of the vectorized images. This ranges from -1 (opposite) to +1 (identical).\\
 
-The final stage of the system consists of identifying each segmented and preprocessed character by comparing it against a set of reference templates (alphabet) obtained in Task 5.
 
-\subsubsection{Methodology}
-
-Each input character image is first normalized to a fixed size of $32 \times 32$ pixels using the preprocessing pipeline described in Task 4. This ensures consistency between the input data and the stored templates.
-
-The recognition process is based on template matching using a similarity metric. For each candidate character in the alphabet, a similarity score is computed between the normalized input image $X$ and the corresponding template $T_i$. In this implementation, the similarity is measured using the normalized two-dimensional correlation:
-
-\begin{equation}
-S_i = \text{corr2}(X, T_i)
-\end{equation}
-
-where $S_i \in [-1, 1]$, with higher values indicating greater similarity.
-
-The system evaluates all available templates in the alphabet structure, which is implemented as a MATLAB struct where each field corresponds to a character label (e.g., \texttt{alphabet.A}, \texttt{alphabet.B}, etc.).
-
-The predicted character $\hat{c}$ is selected as the one that maximizes the similarity score:
-
+The recognition function iterates through all 26 alphabet templates, computing correlation with the test character for each. It then selects the character $\hat{c}$ that maximizes the correlation score:
 \begin{equation}
 \hat{c} = \arg\max_i S_i
 \end{equation}
 
-\subsubsection{Confidence Criterion}
+\paragraph{Confidence Criterion}
 
 To improve robustness and avoid incorrect classifications, a confidence threshold is introduced. If the maximum similarity score is below a predefined threshold (empirically set to 0.5), the recognition is considered unreliable and the output is rejected:
 
 \begin{equation}
-\text{if } \max(S_i) < \tau \Rightarrow \hat{c} = \text{``?''}
+\text{if } \max(S_i) < \tau \Rightarrow \hat{c} = \text{?}
 \end{equation}
 
-This mechanism prevents low-confidence matches from being accepted as valid predictions.
+This mechanism prevents low-confidence matches from being accepted as valid predictions.\\
 
-Additionally, a margin-based criterion comparing the best and second-best scores can be introduced to further improve classification reliability.
-
-\subsubsection{Discussion}
-
-The use of normalized correlation provides a simple and computationally efficient approach to character recognition under controlled conditions. Since all characters share the same font and size, template matching is sufficient to achieve high accuracy.
-
-However, this method presents several limitations. First, it is highly sensitive to segmentation errors and misalignments, as even small shifts can significantly reduce the correlation score. Second, the use of a single template per character does not capture intra-class variability, which may lead to incorrect recognition in the presence of noise or distortions.
-
-To address these limitations, more advanced approaches could be considered, such as storing multiple templates per character, using normalized feature descriptors, or applying machine learning-based classifiers.
-
-Despite these limitations, the implemented approach provides a solid baseline solution for the recognition task within the constraints of the problem.
+Additionally, a margin-based criterion comparing the best and second-best scores was introduced to further improve classification reliability.

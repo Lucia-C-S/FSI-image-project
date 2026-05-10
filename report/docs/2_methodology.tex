@@ -1,12 +1,29 @@
 \section{Methodology}
-
+\subsection{System architecture and pipeline overview}
 The OCR system is organized as a linear pipeline designed with modularity as a core principle. Each of the six stages has a well-defined interface: it accepts input data, processes it deterministically, and returns output that feeds into other stage. This sequential organization reflects the logical flow of the OCR problem: we must first separate text from background (binarization), then locate where text regions are (row segmentation), then locate individual characters within those regions (character segmentation), then normalize those characters to a standard form (preprocessing), then establish what each character looks like (alphabet creation), and finally match observed characters against known templates (recognition).\\
 The six stages are implemented as separate MATLAB functions, each with a clear purpose.\\
 \begin{itemize}
     \item Task 1 (\texttt{task1BinarizationAdvanced.m}) converts grayscale or RGB images into binary matrices.
     \item Task 2 (\texttt{task2ExtractRows.m}, \texttt{task2RowProjection.m}, \texttt{task2SegmentRows.m}) locates row boundaries.
     \item Task 3 (\texttt{task3SegmentCharacters.m}) locates character boundaries within rows.
-    \item Task 4 (\texttt{task4PreprocessingCharacters.m}) resizes character images to 32×32 pixels.
+    \item Task 4 (\texttt{task4PreprocessingCharacters.m}) resizes character images to $N \times N$ pixels.
     \item Task 5 (\texttt{task5CreatingAlphabet.m}) extracts and saves reference characters.
     \item Task 6 (\texttt{task6RecognizeCharacters.m}) matches test characters against alphabet templates.
+\end{itemize}
+A final wrapper script (\texttt{image\_project.m}) orchestrates these six stages, reading an input document image and returning the recognized text. 
+
+\input{docs/2_1_task_binarization.tex}
+\input{docs/2_2_task_row_segmentation.tex}
+\input{docs/2_3_task_character_segmentation.tex}
+\input{docs/2_4_task_preprocessing.tex}
+\input{docs/2_5_task_alphabet.tex}
+\input{docs/2_6_task_recognition.tex}
+
+\subsection{On the run improvements}
+\begin{itemize}
+    \item Task 1: we implemented an adaptive thresholding method (Otsu's method) 
+    \item Task 3: During the initial experiments, some characters were incorrectly segmented. For instance, characters such as “M” or “N” were partially truncated due to excessively narrow segmentation boundaries. To mitigate this issue, a small margin was added to both the start and end indices of each detected segment, resulting in more complete character extractions.\\
+    \item 
+A second issue appeared when adjacent characters became connected, producing merged segments such as “TA”. To address this problem, an overlapping segmentation strategy inspired by OCR techniques was introduced. The width of each detected segment is compared with the average character width. If a segment exceeds 1.5 times the average width, it is assumed to contain multiple characters and is divided approximately at its center using MATLAB’s \texttt{round()} function. The resulting subsegments are then stored independently.
+
 \end{itemize}

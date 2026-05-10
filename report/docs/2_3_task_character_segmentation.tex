@@ -1,0 +1,14 @@
+\subsubsection{Task 3 - Character Segmentation}
+Character segmentation is the process of locating where individual characters begin and end within a row of text. Unlike row segmentation, which is a one-dimensional problem (finding row boundaries along the vertical axis), character segmentation is slightly more complex because characters in a row can have varying widths and can nearly touch one another. A clear example of this is the width difference between a narrow character like "I" and a wide character like "W”. \\
+
+The function computes a vertical projection for every extracted row image. This projection corresponds to the sum of active pixels in each column, allowing us to distinguish between regions containing characters and blank spaces.\\\
+
+The projection is then binarized by applying a threshold, producing a binary vector in which values equal to 1 correspond to columns containing foreground pixels, while values equal to 0 represent background regions. This additional binarization step reduces the influence of noise and facilitates the detection of character boundaries.\\
+
+Character segmentation is performed by analyzing transitions in the binary projection using MATLAB’s \texttt{diff()} function. Specifically:
+
+\begin{enumerate}[label=\alph*), leftmargin=1cm]
+    \item \texttt{diff = 1}: indicates the beginning of a character region.
+    \item \texttt{diff = -1}: indicates the end of a character region.
+\end{enumerate}
+From these transitions, the start and end positions of all character candidates are obtained.

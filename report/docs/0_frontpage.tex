@@ -1,5 +1,4 @@
-\pagenumbering{roman}
-\setcounter{page}{1}
+\thispagestyle{empty}
 \begin{center}														
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % \left
 
@@ -8,7 +7,7 @@
 \HRule \\[0.5cm]
 { \Huge \textrm \textbf{Image Project }}\\[1cm]
 { \huge \textrm \textbf{Foundamentals of Sound and Image } }\\[0.5cm] 													
-\HRule \\[12.5cm]																
+\HRule \\[13.5cm]																
 
 \begin{minipage}{0.46\textwidth}
 	\begin{flushleft} \large
@@ -29,18 +28,18 @@
 		Task 2 and 5 \\
 		Task 1, 6 and LaTeX report
 	\end{flushright}															
-\end{minipage}	
-\vspace*{0.5cm}
-\vspace{0.5cm} 																				
-\begin{center}																		{\large \today}
-\end{center}												  					
-\end{center}							 																									
+\end{minipage}								 																									
+\end{center}
+
 \newpage
+\pagenumbering{gobble}
 
 \textbf{\Huge Abstract} 
 \\
 \linebreak
- Optical Character Recognition (OCR) has been a fundamental technology for document digitization, information accessibility, and archival systems since the mid-20th century, as it  converts printed or handwritten text in images into machine-readable text. Despite the rise of deep learning approaches, classical image processing methods remain relevant for controlled-domain applications where documents exhibit consistent structure, fixed fonts, and manageable lighting conditions. This project implements a complete end-to-end OCR pipeline for capital-letter documents using sequential image processing techniques in MATLAB.\\
+\indent Optical Character Recognition (OCR) has been a fundamental technology for document digitization, information accessibility, and archival systems since the mid-20th century, as it  converts printed or handwritten text in images into machine-readable text. Despite the rise of deep learning approaches, classical image processing methods remain relevant for controlled-domain applications where documents exhibit consistent structure, fixed fonts, and manageable lighting conditions. This project implements a complete end-to-end OCR pipeline for capital-letter documents using sequential image processing techniques in MATLAB.\\
 
 The system architecture comprises six integrated stages: binarization (via Otsu's adaptive threshold method), vertical projection-based row detection and segmentation, horizontal projection-based character boundary detection, geometric normalization to fixed-size images, alphabet creation through reference document processing, and finally template-based character recognition using normalized 2D correlation.
+\newpage
+\tableofcontents
 \newpage

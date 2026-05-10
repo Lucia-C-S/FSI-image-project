@@ -1,61 +1,35 @@
 function [letter, score] = task6RecognizeCharacters(img, alphabet)
     % INPUT PARAMETERS:
-    %   -img: segmented character (from Task 3)
-    %   -alphabet: struct of alphabet
+    %   -img: segmented character (from Task 4)
+    %   -alphabet: struct of alphabet, each a 32x32 template
     % OUTPUT PARAMETERS:
-    %   - letter: predicted character
-    %   - score: similarity score
+    %   - letter: predicted character (or '?' if low confidence)
+    %   - score: similarity score: best corr2 similarity score in [-1, 1]
 
-    % --- Step 1: normalize single character ---
-    % img = im2double(img);
-    % [h, w] = size(img);
-    % % PADDING
-    % % we convert any character image into a square image before resizing, 
-    % % because distortion happens if we resize non-square images directly
-    % if h > w % case image is taller than wide
-    %     dif = h - w; %missing width
-    %     left  = floor(dif/2);
-    %     right = ceil(dif/2); %bc if d is odd we would not split equally
-    %     img = padarray(img, [0 left], 0, 'pre'); %add rows on left
-    %     img = padarray(img, [0 right], 0, 'post');%add rows on right
-    % 
-    % elseif w > h %width of image>height
-    %     dif = w - h;
-    %     top    = floor(dif/2);
-    %     bottom = ceil(dif/2);
-    %     img = padarray(img, [top 0], 0, 'pre'); %add rows on top
-    %     img = padarray(img, [bottom 0], 0, 'post'); % bottom
-    % end
-    % 
-    % charNorm = imresize(img, [32 32]);
-
-    % charNormCell = task4PreprocessingCharacters({{img}}, 32); %cambio andrea, puse dos {{}} pq modifique tarea4
-    % charNorm = im2double(charNormCell{1}{1});
+    charNorm = imresize(im2double(img), [32 32]);
 
     %Diego change this in order to reduce possible errors
     %Try changes!! No reproccess the characters again => more error margin
-    charNorm = im2double(img);
 
     letters = fieldnames(alphabet);
 % 'ABCDEFGHIJKLMNOPQRSTUVWXYZ': define search space
     n = length(letters);
-    scores = -inf(1, n); %preallocate for speed
+    scores = -inf(1, n); %preallocate for speed,inf stays for empty templates
     
     for k = 1:n %iterate over each possible letter
          %skip missing templates (score remains 0)
         if isempty(alphabet.(letters{k}))
             continue;
         end
-        ref = im2double(alphabet.(letters{k}));  % Get reference template from struct
-        ref = imresize(ref, [32 32]);   % ensure same size
+        ref = imresize(im2double(alphabet.(letters{k})), [32 32]);  % Get reference template from struct
+        % and resize to ensure same size
         
-        % normalize (zero mean, unit variance) into -1,1 bc corr2 is:
-        % -Output range: [-1, 1]
-        % Scale invariant
+        % 2-D normalised cross-correlation coefficient (range [-1, 1]).
+        % corr2 is scale-invariant: mean-centres and unit-normalises both        % -Output range: [-1, 1]
         % Independent of image size
         scores(k) = corr2(charNorm, ref);
     end
-    
+    % Sort all 26 scores descending; keep top-2 for confidence gap check
     [sortedScores, idxs] = sort(scores, 'descend');
     
     best = sortedScores(1); %select best match
@@ -72,27 +46,27 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     % if best < 0.3 || (best - second) < 0.03 % confidence threshold   %andrea changed these thresholds!!!!!!
     %Try changes => to a threshold less strict 
     if best < 0.2  %|| (best-second)<0.005 %Diego change this
-        letter = '?';   % low confidence threshold
+        letter = '?';   % low confidence threshold - instead of silently propagating a wrong letter
         warning('Low confidence recognition (score=%.2f)', score);
     end
    
     %Diego add this
     %Specific cases for the letters previously identified characters that were interchanged.
+    % Lucía improved comparison with function strcmp instead of ==
+    if strcmp(letter, 'B') 
+        secondLetter = letters{idxs(2)};
+        if strcmp(secondLetter, 'S') && (best - second) < 0.05
+            % B and S share similar rounded strokes; when the gap is small,
+            % trust the second candidate
+            letter = 'S';
+        end
+     end
 
-    if letter == 'B'
-
-    secondLetter = letters{idxs(2)};
-
-    if secondLetter == 'S' && abs(best-second) < 0.01
-        letter = 'S';
+    if strcmp(letter, 'O')
+        secondLetter = letters{idxs(2)};
+        if strcmp(secondLetter, 'D') && (best - second) < 0.05
+            % O and D share a closed loop: resolve with a slightly wider gap
+            letter = 'D';
+        end
     end
-    end
-    if letter == 'O'
-
-    secondLetter = letters{idxs(2)};
-
-    if secondLetter == 'D' && abs(best-second) < 0.01
-        letter = 'D';
-    end
-    end
-    
+end    

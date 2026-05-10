@@ -1,0 +1,5 @@
+\subsubsection{Task 2 - Row Segmentation}
+Once we have a binary image, the next step is to locate the text rows. To start, we applied a morphological closing to make each text line more compact. Then, we computed the number of active pixels for each row. We used, as well, a relative threshold  to distinguish text rows from background rows. Finally, the start and end indices of each text line were detected and each row was extracted as a separate binary image.
+
+\subsubsubsection{Discussion: advanced methods}
+\indent The morphological method of blob division wasn’t tested nor implemented. This decision was based on one of the general principles in engineering: keep simpler methods unless they demonstrably fail on realistic inputs. 
