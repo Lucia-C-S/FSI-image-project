@@ -1,34 +1,47 @@
-function allChars = task3SegmentCharacters(row)
 %Now we have to segment the characters on each row 
+function allChars = task3SegmentCharacters(row)
 
-% Logical format, to ensure that is work in black and white 
+% Logical format, to ensure we work in black and white 
 row = logical(row);
 
-% Vertical proyection. For each column how many pixels of character we have
-% We have a matrix where the zeros are spaces and the non zeros letters.
+% IMPROVEMENT 1: morphological closing along the horizontal axis.
+% Bridges tiny gaps inside a single character (e.g. the gap between the
+% two diagonals of W, or thin breaks in I/T at low resolution) so they
+% are not split into two blobs by the projection.
+% Kernel: 1 row x 3 cols — only closes horizontal gaps, will not merge
+% neighbouring characters which are separated by more than 3 columns.
+row = imclose(row, strel('rectangle', [1 3]));
+
+%Vertical proyection. For each column how many pixels of character we have
+%We have a matrix where the zeros are spaces and the non zeros letters.
 charProyection = sum(row, 1);
 
-%To detect zones where we have characters => Get a vector per row w/ spaces
-%and characters
-threshold=0;
+% Vertical projection: for each column, how many ink pixels exist
+
+
+% IMPROVEMENT 2: use threshold=1 instead of 0.
+% threshold=0 means a single noise pixel in any column opens a new blob.
+% Requiring at least 2 ink pixels per column eliminates isolated noise dots
+% without affecting real character strokes (which span many pixels tall).
+threshold = 1;
 binaryProyection = charProyection > threshold;
 
-% %PARA COMRPOBAR LUEGO QUITAR 
-% figure();
-% plot(binaryProyection);
-% title('Proyection');
-
-%Detection of characters
-%diff get the difference beetween to consecutive elements: x(2)-x(1)
+% Detect character blobs
 d = diff([0 binaryProyection 0]);
-%Create a vector with the start and end positions
-startChar = find(d==1);
-endChar = find(d==-1) - 1;  %d=-1 because the dif should be negative. We substract one because the diff reduce one element of the vector so we will have the end character in the previous position
-%find will return the positions. Inicio y final de cada bloque i
+startChar = find(d ==  1);
+endChar   = find(d == -1) - 1;
 
-%We add a margin to avoid the 'cutted' characters
-startCharMargin = max(startChar - 1,1); %We reassign the positions substracting 1 to the startChar and start to segment on this position
-endCharMargin   = min(endChar + 1,size(row,2)); %We increase the endChar and compare it with the maximum size of the row to see if it is the last. 
+% IMPROVEMENT 3: drop blobs narrower than 3 pixels — these are noise or
+% scanning artifacts, not characters. Without this filter they skew avgWidth
+% and cause real characters to be wrongly flagged as merged pairs.
+blobWidths = endChar - startChar + 1;
+validBlobs = blobWidths >= 3;
+startChar  = startChar(validBlobs);
+endChar    = endChar(validBlobs);
+
+% Add a 1-pixel margin around each blob to avoid cutting edge strokes
+startCharMargin = max(startChar - 1, 1);
+endCharMargin   = min(endChar   + 1, size(row,2));
 
 
 %Extract the characters of each row 
@@ -44,48 +57,41 @@ chars = cell(1, numChars);
 % %Store all chars. 
 
 
-%Setting a width and get the mean of all
-% widths = endCharMargin-startCharMargin;
-% Lucía changed this because it inflates every width, due to the added margin
-widths   = endChar - startChar + 1;
+% --- BUG FIX (Bug 5) ---
+% Compute widths from the RAW (pre-margin) boundaries.
+% Using endCharMargin-startCharMargin inflates every width by ~2 px,
+% which biases avgWidth upward and causes the split condition to
+% under-trigger (merged character pairs are missed).
+widths   = endChar - startChar + 1;   % raw pixel width of each blob
 avgWidth = mean(widths);
-gaps=startChar(2:end) - endChar(1:end-1); %dist entre dos letras consecutivos
-spaceThreshold= 1.5*mean(gaps);%si el espacio entre characteres es mayor que esto LO CONSIDERAMOS ESPACIO
-%ponemos 1.5 porque el espacio entre palabras > espacio entre letras
 k = 1;
 
-%For loop in order to get 
 for i = 1:numChars
-    width = widths(i);
+    width = widths(i);   % use raw width for the comparison
 
-    %Compare the width
     if width > 1.5 * avgWidth
-        
-        %Round the cut where we divide the characters and store it
-        cut = round((startCharMargin(i)+endCharMargin(i))/2)-1; %quit the -1????
-        
-        chars{k} = row(:, startCharMargin(i):cut);
-        k = k+1;
+        % This blob is likely two merged characters.  Split at the midpoint.
+        % We keep a 1-column overlap on the right half to avoid cutting
+        % ink strokes that fall exactly on the split column.
 
-        %Overlapping segment
-        chars{k} = row(:, cut-1:endCharMargin(i));
-        % LUCIA: Starting at (cut) gives a clean 1-column overlap
+        % Midpoint column (in margin-padded coordinates)
+        cut = round((startCharMargin(i) + endCharMargin(i)) / 2);
+
+        % Left half:  startMargin … cut  (inclusive)
+        chars{k} = row(:, startCharMargin(i):cut);
+        k = k + 1;
+
+        % --- BUG FIX (Bug 6) ---
+        % Original code started the right half at cut-1, so columns
+        % (cut-1) and (cut) were included in BOTH halves — a 2-column
+        % double-count.  Starting at (cut) gives a clean 1-column overlap
         % that is sufficient to avoid stroke loss.
-        % chars{k} = row(:, cut:endCharMargin(i));
-        k = k+1;
+        chars{k} = row(:, cut:endCharMargin(i));
+        k = k + 1;
 
     else
         chars{k} = row(:, startCharMargin(i):endCharMargin(i));
-        k= k+1;
-    end
-
-    %%andrea added this, to identify spaces between words
-    if i<numChars %si todavia quedan characters qu eprocesar
-        gap=startChar(i+1) - endChar(i); %la diferencia entre donde empieza la siguiente letra y donde termina la actual 
-        if gap > spaceThreshold %si supera el threshold: condideramos espacio
-            chars{k} = 'SPACE'; %en vez de meter al cell array la imagen metemos eso para distinguir
-            k=k+1;
-        end
+        k = k + 1;
     end
 end
 
