@@ -62,27 +62,43 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     % if best < 0.3 || (best - second) < 0.03 % confidence threshold   %andrea changed these thresholds!!!!!!
     %Try changes => to a threshold less strict 
     if best < 0.2  || (best-second)<0.005 %Diego change this
-        letter = '?';   % low confidence threshold - instead of silently propagating a wrong letter
+        letter = '?';   % low confidence threshold
         warning('Low confidence recognition (score=%.2f)', score);
     end
    
     %Diego add this
     %Specific cases for the letters previously identified characters that were interchanged.
-    % Lucía improved comparison with function strcmp instead of ==
     diffScore = abs(best-second);
 
     %O-D Confusion
-    if strcmp(letter, 'D') && strcmp(secondLetter, 'O') && diffScore < 0.08
+    if letter == 'D' && secondLetter == 'O' && diffScore < 0.08
         letter = 'O';
     end
     
     %O-C Confusion 
-    if strcmp(letter,'C') && strcmp(secondLetter, 'O') && diffScore < 0.04
+    if letter == 'C' && secondLetter == 'O' && diffScore < 0.04
         letter = 'O';
     end
 
     %B-S Confusion
-      if strcmp(letter, 'B') && strcmp(secondLetter, 'S') && diffScore < 0.01
-        letter = 'S';
+      if letter == 'B' && secondLetter == 'S' && diffScore < 0.01
+        letter = 'S'
       end
 end
+
+    % if letter == 'B'
+    % 
+    % secondLetter = letters{idxs(2)};
+    % 
+    % if secondLetter == 'S' && diffScore < 0.01
+    %     letter = 'S';
+    % end
+    % end
+    % if letter == 'O'
+    % 
+    % secondLetter = letters{idxs(2)};
+    % 
+    % if secondLetter == 'D' && diffScore  < 0.01
+    %     letter = 'D';
+    % end
+    % end

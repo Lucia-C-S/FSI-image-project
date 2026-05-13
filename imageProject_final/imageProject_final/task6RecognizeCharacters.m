@@ -51,8 +51,8 @@ function [letter, score] = task6RecognizeCharacters(img, alphabet)
     end
 
     %To check the scores of the letters
-     disp(['BEST: ' letters{idxs(1)} ' ' num2str(sortedScores(1))])
-     disp(['SECOND: ' letters{idxs(2)} ' ' num2str(sortedScores(2))])
+     % disp(['BEST: ' letters{idxs(1)} ' ' num2str(sortedScores(1))])
+     % disp(['SECOND: ' letters{idxs(2)} ' ' num2str(sortedScores(2))])
 
     letter = letters{idxs(1)}; %map from index to letter 
     secondLetter = letters{idxs(2)};

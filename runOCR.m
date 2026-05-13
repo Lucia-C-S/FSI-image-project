@@ -1,9 +1,8 @@
-clear; clc; 
-close all;
+function recognizedString = runOCR(imageFile)
 
 %%TASK1. BINARIZATION
 
-imBinarized = task1BinarizationAdvanced('origen.png'); %otsu finds optimal threshold (lower threshold, lineas mas finas, capta menos)
+imBinarized = task1BinarizationAdvanced(imageFile); %otsu finds optimal threshold (lower threshold, lineas mas finas, capta menos)
 
 %%TASK2. SEGMENTING ROWS
 
@@ -53,7 +52,9 @@ for i = 1:numRows %itero sobre cada fila
     recognizedText{i} = letters; %puts all rows togeteher in a text
 end
 
-disp('Recognized text:')
-disp(recognizedText)
+%%disp('Recognized text:')
+%%disp(recognizedText)
 
-
+%HAGO ESTO POR QUE COMPARETEXTS SOLO TRABAJA CON STRINGS!!!
+recognizedString = strjoin(recognizedText); %UNE TODOS LOS ELEMENTOS DE LA CELDA EN UN STRING
+end
